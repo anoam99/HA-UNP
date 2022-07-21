@@ -8,3 +8,5 @@
 ```bash 
 docker-compose up -d
 ```
+
+2. Navigate to http://localhost:8001/
