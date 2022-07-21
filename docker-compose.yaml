@@ -1,0 +1,36 @@
+services:
+  backend:
+    image: node:14
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./backend:/app:cached
+      - backend_node_modules:/app/node_modules
+      - yarn_cache:/usr/local/share/.cache/yarn/v6
+    ports:
+      - 8002:8002
+    working_dir: /app
+    command: sh -c 'yarn && yarn run start:dev'
+    environment:
+      NODE_ENV: development
+      PORT: 8002
+      UNIPASS_PRIVATE_KEY: 0+SLSUG66JmgsCfvyY/Jow==
+      UNIPASS_BASE_URL: https://sandbox.unipaas.com/platform
+  frontend:
+    image: node:14
+    volumes:
+      - ./frontend:/app:cached
+      - frontend_node_modules:/app/node_modules
+      - yarn_cache:/usr/local/share/.cache/yarn/v6
+    ports:
+      - 8001:8001
+    working_dir: /app
+    command: sh -c 'yarn && yarn run start'
+    environment:
+      REACT_APP_NODE_ENV: development
+      REACT_APP_BACKEND_ENDPOINT: http://localhost:8002/
+      PORT: 8001
+volumes:
+  backend_node_modules: {}
+  yarn_cache: {}
+  frontend_node_modules: {}
